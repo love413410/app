@@ -27,26 +27,29 @@
 			};
 			// const data = {
 			// 	appId: "__UNI__80E44B1",
-			// 	appVersion: "1.0.1"
+			// 	appVersion: "1.0.2"
 			// };
 			this.http({
 				url: this.urls.check_apk,
 				data: data
 			}).then(res => {
-				uni.showModal({
-					title: '提示',
-					content: '有新版本,请更新',
-					confirmText: "立即更新",
-					cancelText: "暂不更新",
-					// success: function (res) {
-					success: (r => {
-						if (r.confirm) {
-							plus.runtime.openURL(res.data.url);
-						} else if (r.cancel) {
-							console.log('用户点击取消');
-						};
-					})
-				});
+				var status = res.status;
+				if (status == 1) {
+					uni.showModal({
+						title: '提示',
+						content: '有新版本,请更新',
+						confirmText: "立即更新",
+						cancelText: "暂不更新",
+						// success: function (res) {
+						success: (r => {
+							if (r.confirm) {
+								plus.runtime.openURL(res.data.url);
+							} else if (r.cancel) {
+								console.log('用户点击取消');
+							};
+						})
+					});
+				}
 			}).catch(err => {
 
 			});
