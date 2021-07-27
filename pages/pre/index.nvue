@@ -1,0 +1,552 @@
+<template>
+	<view class="content">
+		<view class="head" data-url="../region/index" @click="rouTo">
+			<image class="head-img" src="../../static/1.png"></image>
+			<text class="head-reg">{{region}}</text>
+			<image class="head-img head-img2" src="../../static/2.png"></image>
+		</view>
+
+		<view class="map-box">
+			<view class="map-head">
+				<view class="map-head-lt">
+					<text class="head-lt-text">{{date}}</text>
+				</view>
+				<view class="map-head-rt">
+					<image class="head-rt-img" src="../../static/23.png"></image>
+					<text class="head-rt-text">固定地图</text>
+				</view>
+			</view>
+			<view class="map-center">
+				<map style="width: 100%; height: 520rpx;" scale="5" min-scale="4" max-scale="6" enable-satellite
+					:latitude="latitude" :longitude="longitude" :polyline="polygon" :markers="markers"></map>
+			</view>
+
+			<view class="map-foot">
+				<text class="foot-text">{{unit}} {{release_date}} 发布</text>
+			</view>
+		</view>
+
+
+		<view class="swiper-box">
+			<view>
+				<image src="../../static/35.png" class="swiper-img swiper-img1" @click="textClick" data-is="1">
+				</image>
+			</view>
+			<text class="swiper">{{textArr[textIdx].text}}</text>
+			<view>
+				<image src="../../static/35.png" class="swiper-img" @click="textClick" data-is="2"></image>
+			</view>
+		</view>
+
+		<view class="data-list">
+			<view class="list-item">
+				<view class="list-item-lt">
+					<image class="item-lt-img" src="../../static/9.png"></image>
+					<text class="item-lt-text">海温</text>
+				</view>
+				<view class="list-item-rt">
+					<text class="item-rt-text">{{preData.el_hw}}</text>
+				</view>
+			</view>
+			<view class="list-item">
+				<view class="list-item-lt">
+					<image class="item-lt-img" src="../../static/25.png"></image>
+					<text class="item-lt-text">流向</text>
+				</view>
+				<view class="list-item-rt">
+					<text class="item-rt-text">{{preData.el_lx}}</text>
+				</view>
+			</view>
+			<view class="list-item">
+				<view class="list-item-lt">
+					<image class="item-lt-img" src="../../static/24.png"></image>
+					<text class="item-lt-text">流速</text>
+				</view>
+				<view class="list-item-rt">
+					<text class="item-rt-text">{{preData.el_ls}}</text>
+				</view>
+			</view>
+			<view class="list-item">
+				<view class="list-item-lt">
+					<image class="item-lt-img" src="../../static/8.png"></image>
+					<text class="item-lt-text">浪高 </text>
+				</view>
+				<view class="list-item-rt">
+					<text class="item-rt-text">{{preData.el_lg}}</text>
+				</view>
+			</view>
+			<view class="list-item">
+				<view class="list-item-lt">
+					<image class="item-lt-img" src="../../static/26.png"></image>
+					<text class="item-lt-text">涌浪</text>
+				</view>
+				<view class="list-item-rt">
+					<text class="item-rt-text">{{preData.el_ly}}</text>
+				</view>
+			</view>
+		</view>
+
+		<view class="deta-list" v-if="one_text.length>0">
+			<text class="deta-list-head">&nbsp&nbsp&nbsp&nbsp第1天（{{t_date}}）</text>
+			<text class="deta-list-text">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{one_text}}</text>
+		</view>
+		<view class="deta-list" v-if="two_text.length>0">
+			<text class="deta-list-head">&nbsp&nbsp&nbsp&nbsp第2天（{{b_date}}）</text>
+			<text class="deta-list-text">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{two_text}}</text>
+		</view>
+		<view class="deta-list" v-if="three_text.length>0">
+			<text class="deta-list-head">&nbsp&nbsp&nbsp&nbsp第3天（{{a_date}}）</text>
+			<text class="deta-list-text">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{three_text}}</text>
+		</view>
+	</view>
+</template>
+<script>
+	import http from "../../assets/lib/http.js";
+	import urls from "../../assets/lib/urls.js";
+	export default {
+		data() {
+			return {
+				latitude: 36,
+				longitude: 121.40,
+				polygon: [{
+					points: [{
+							longitude: 121.40,
+							latitude: 36
+						},
+						{
+							longitude: 123.40,
+							latitude: 36
+						},
+						{
+							longitude: 123.40,
+							latitude: 32
+						},
+						{
+							longitude: 121.40,
+							latitude: 32
+						}, {
+							longitude: 121.40,
+							latitude: 35
+						}
+					],
+					width: 1,
+					color: "#3366FF",
+				}],
+				markers: [{
+					longitude: 121.40,
+					latitude: 36,
+					iconPath: '../../static/z1.png',
+					width: 20,
+					height: 20,
+					anchor: {
+						x: .5,
+						y: .5
+					}
+				}, {
+					longitude: 123.40,
+					latitude: 36,
+					iconPath: '../../static/z1.png',
+					width: 20,
+					height: 20,
+					anchor: {
+						x: .5,
+						y: .5
+					}
+				}, {
+					longitude: 123.40,
+					latitude: 32,
+					iconPath: '../../static/z1.png',
+					width: 20,
+					height: 20,
+					anchor: {
+						x: .5,
+						y: .5
+					}
+				}, {
+					longitude: 121.40,
+					latitude: 32,
+					iconPath: '../../static/z1.png',
+					width: 20,
+					height: 20,
+					anchor: {
+						x: .5,
+						y: .5
+					}
+				}, {
+					longitude: 121.40,
+					latitude: 35,
+					iconPath: '../../static/z1.png',
+					width: 20,
+					height: 20,
+					anchor: {
+						x: .5,
+						y: .5
+					}
+				}],
+				unit:"",
+				release_date:"",
+				date:"",
+				// 地图下面的数据
+				textArr: [{
+					text: "12小时预报",
+					val: 12
+				}, {
+					text: "24小时预报",
+					val: 24
+				}, {
+					text: "36小时预报",
+					val: 36
+				}, {
+					text: "48小时预报",
+					val: 48
+				}, {
+					text: "60小时预报",
+					val: 60
+				}, {
+					text: "72小时预报",
+					val: 72
+				}],
+				textIdx: 0,
+				region: "",
+				t_date: null,
+				b_date: null,
+				a_date: null,
+				timeout: null,
+				preData: {
+					el_hw: "",
+					el_lg: "",
+					el_ls: "",
+					el_lx: "",
+					el_ly: "",
+				},
+				one_text: "",
+				two_text: "",
+				three_text: ""
+			}
+		},
+		onLoad(){
+			this.getMapFn();
+		},
+		onShow() {
+			const date = new Date();
+			// 获取今天日期
+			let t_y = date.getFullYear();
+			let t_m = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+			let t_d = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+			let t_date = `${t_y}-${t_m}-${t_d}`;
+			// 获取明天日期
+			date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
+			let b_y = date.getFullYear();
+			let b_m = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+			let b_d = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+			let b_date = `${b_y}-${b_m}-${b_d}`;
+			// 获取后天日期
+			date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
+			let a_y = date.getFullYear();
+			let a_m = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+			let a_d = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+			let a_date = `${a_y}-${a_m}-${a_d}`;
+			//赋值
+			this.t_date = t_date;
+			this.b_date = b_date;
+			this.a_date = a_date;
+			uni.getStorage({
+				key: 'reg',
+				success: (res => {
+					this.region = res.data.text;
+					this.getPreData();
+					this.getPreText();
+				})
+			});
+		},
+		methods: {
+			getMapFn(){
+				http({
+					url: urls.getMapData
+				}).then(res => {
+					var data=res.data;
+					this.date=data.date;
+					this.unit=data.unit;
+					this.release_date=data.release_date;
+				}).catch(err => {
+				
+				});
+			},
+			textClick: function(e) {
+				const _this = this;
+				let is = e.currentTarget.dataset.is;
+				let textIdx = this.textIdx;
+				is == 1 ? textIdx-- : textIdx++;
+				let x = textIdx < 0 ? 5 : textIdx > 5 ? 0 : textIdx;
+				this.textIdx = x;
+				clearTimeout(this.timeout);
+				this.timeout = setTimeout(function() {
+					return _this.getPreData();
+				}, 500);
+			},
+			getPreData: function() {
+				let type = this.textArr[this.textIdx].val;
+				http({
+					url: urls.getPreData,
+					data: {
+						type: type,
+						region: this.region
+					}
+				}).then(res => {
+					this.preData = res.data;
+				}).catch(err => {
+
+				});
+			},
+			getPreText: function() {
+				http({
+					url: urls.getPreText,
+					data: {
+						region: this.region,
+						date: this.t_date
+					}
+				}).then(res => {
+					this.one_text = res.data.one_text;
+					this.two_text = res.data.two_text;
+					this.three_text = res.data.three_text;
+				}).catch(err => {
+
+				});
+			},
+
+			rouTo: function(e) {
+				let url = e.currentTarget.dataset.url;
+				uni.navigateTo({
+					url: url
+				})
+			}
+		}
+	}
+</script>
+
+<style scoped>
+	.content {
+		padding-top: 80rpx;
+		padding-right: 30rpx;
+		padding-left: 30rpx;
+		/*#ifdef  H5*/
+		padding-top: var(--window-top);
+		padding-right: 30rpx;
+		padding-left: 30rpx;
+		/*#endif*/
+		/*#ifdef  MP-WEIXIN ||H5*/
+		box-sizing: border-box;
+		/*#endif*/
+	}
+
+	.head {
+		width: 750rpx;
+		height: 80rpx;
+		padding: 0 25rpx;
+		background-color: #fff;
+		flex-direction: row;
+		align-items: center;
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 999;
+		/*#ifdef  H5*/
+		top: var(--window-top);
+		/*#endif*/
+
+		/*#ifdef  MP-WEIXIN*/
+		display: flex;
+		box-sizing: border-box;
+		/*#endif*/
+	}
+
+	.head .head-img {
+		width: 25rpx;
+		height: 35rpx;
+		/*#ifdef  MP-WEIXIN*/
+		align-self: center;
+		/*#endif*/
+	}
+
+	.head .head-reg {
+		height: 80rpx;
+		line-height: 80rpx;
+		color: #3160D9;
+		font-size: 28rpx;
+		margin: 0 12rpx;
+	}
+
+	.head .head-img2 {
+		width: 14rpx;
+		height: 26rpx;
+	}
+
+	.map-box {
+		border-radius: 20rpx;
+		margin-top: 30rpx;
+		background-color: #fff;
+		overflow: hidden;
+		/*#ifdef  MP-WEIXIN*/
+		width: 100%;
+		box-shadow: 0px 4rpx 4rpx rgba(0, 0, 0, 0.25);
+		background-color: #fff;
+		/*#endif*/
+	}
+
+	.map-head {
+		padding: 0 30rpx;
+		background: #3160D9;
+		flex-direction: row;
+		justify-content: space-between;
+		/*#ifdef  MP-WEIXIN*/
+		width: 100%;
+		box-sizing: border-box;
+		display: flex;
+		/*#endif*/
+	}
+
+	.map-head-lt {
+		height: 80rpx;
+	}
+
+	.head-lt-text {
+		line-height: 80rpx;
+		color: #FFFFFF;
+		font-size: 30rpx;
+	}
+
+	.map-head-rt {
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+		/*#ifdef  MP-WEIXIN*/
+		display: flex;
+		/*#endif*/
+	}
+
+	.map-head-rt .head-rt-img {
+		width: 24rpx;
+		height: 24rpx;
+		margin-right: 6rpx;
+	}
+
+	.map-head-rt .head-rt-text {
+		color: #FFFFFF;
+		font-size: 20rpx;
+	}
+
+	.map-foot {
+		height: 68rpx;
+		padding: 0 20rpx;
+		background-color: #fff;
+	}
+
+	.map-foot .foot-text {
+		line-height: 68rpx;
+		color: #999999;
+		font-size: 20rpx;
+		text-align: right;
+	}
+
+	.swiper-box {
+		height: 100rpx;
+		/*#ifdef  MP-WEIXIN ||H5*/
+		width: 100%;
+		display: flex;
+		/*#endif*/
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.swiper-img {
+		width: 32rpx;
+		height: 32rpx;
+	}
+
+	.swiper-img1 {
+		transform: rotate(180deg);
+	}
+
+	.swiper-box .swiper {
+		width: 300rpx;
+		height: 100rpx;
+		line-height: 100rpx;
+		text-align: center;
+	}
+
+	.data-list {
+		background: #FFFFFF;
+		border-radius: 20rpx;
+		padding: 0 25rpx;
+
+
+	}
+
+	.list-item {
+		height: 100rpx;
+		border-bottom: 1px solid #F0EFEF;
+		flex-direction: row;
+		justify-content: space-between;
+
+	}
+
+	.list-item-lt {
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.list-item-lt .item-lt-img {
+		width: 36rpx;
+		height: 36rpx;
+		margin-right: 15rpx;
+	}
+
+	.item-lt-text {
+		color: #222222;
+		font-size: 28rpx;
+		line-height: 100rpx;
+	}
+
+	.list-item-rt {
+		justify-content: flex-end;
+	}
+
+	.list-item-rt .item-rt-text {
+		color: #222222;
+		font-size: 28rpx;
+		line-height: 100rpx;
+	}
+
+	/* 文本介绍 */
+	.deta-list {
+		margin: 30rpx 0;
+		border-radius: 20rpx;
+		overflow: hidden;
+
+	}
+
+	.deta-list-head {
+		height: 80rpx;
+		line-height: 80rpx;
+		color: #FFFFFF;
+		font-size: 30rpx;
+		background: #3160D9;
+		/*#ifdef MP-WEIXIN ||H5*/
+		text-indent: 30rpx;
+		/*#endif*/
+
+
+	}
+
+	.deta-list-text {
+		color: #333333;
+		font-size: 24rpx;
+		line-height: 46rpx;
+		padding: 30rpx;
+		background: #fff;
+		/*#ifdef MP-WEIXIN ||H5*/
+		text-indent: 48rpx;
+		/*#endif*/
+	}
+</style>

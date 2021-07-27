@@ -1,0 +1,134 @@
+{
+	"pages": [{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarBackgroundColor": "#3160D9",
+				"navigationBarTitleText": "北海海洋预报",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					//#ifdef H5
+					"titleNView": false
+					//#endif
+				}
+			}
+		},
+		{
+			"path": "pages/pre/index",
+			"style": {
+				"navigationBarBackgroundColor": "#3160D9",
+				"navigationBarTitleText": "北海海洋预报",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/alert/index",
+			"style": {
+				"navigationBarBackgroundColor": "#3160D9",
+				"navigationBarTitleText": "北海海洋预报",
+				"navigationBarTextStyle": "white"
+			}
+		}, {
+			"path": "pages/typhoon/index",
+			"style": {
+				"navigationBarBackgroundColor": "#3160D9",
+				"navigationBarTitleText": "北海海洋预报",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/region/index",
+			"style": {
+				"navigationBarBackgroundColor": "#3160D9",
+				"navigationBarTitleText": "北海海洋预报",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/homeItem/index",
+			"style": {
+				"navigationBarBackgroundColor": "#3160D9",
+				"navigationBarTitleText": "北海海洋预报",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/haidao/index",
+			"style": {
+				"navigationBarBackgroundColor": "#3160D9",
+				"navigationBarTitleText": "北海海洋预报",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/list/index",
+			"style": {
+				"navigationBarBackgroundColor": "#3160D9",
+				"navigationBarTitleText": "北海海洋预报",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/text/index",
+			"style": {
+				"navigationBarBackgroundColor": "#3160D9",
+				"navigationBarTitleText": "北海海洋预报",
+				"navigationBarTextStyle": "white"
+			}
+		}, {
+			"path": "pages/route/index",
+			"style": {
+				"navigationBarBackgroundColor": "#3160D9",
+				"navigationBarTitleText": "北海海洋预报",
+				"navigationBarTextStyle": "white"
+			}
+		}, {
+			"path": "pages/test/index",
+			"style": {
+				"navigationBarBackgroundColor": "#3160D9",
+				"navigationBarTitleText": "北海海洋预报",
+				"navigationBarTextStyle": "white"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#B6B9C1",
+		"selectedColor": "#3160D9",
+		"backgroundColor": "#FFFFFF",
+		"list": [{
+				"pagePath": "pages/home/index",
+				"text": "首页",
+				"iconPath": "./static/b1.png",
+				"selectedIconPath": "./static/b2.png"
+			},
+			{
+				"pagePath": "pages/pre/index",
+				"text": "海区预报",
+				"iconPath": "./static/b3.png",
+				"selectedIconPath": "./static/b4.png"
+			},
+			{
+				"pagePath": "pages/typhoon/index",
+				"text": "实时台风",
+				"iconPath": "./static/b7.png",
+				"selectedIconPath": "./static/b8.png"
+			},
+			{
+				"pagePath": "pages/alert/index",
+				"text": "海洋警报",
+				"iconPath": "./static/b5.png",
+				"selectedIconPath": "./static/b6.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "北海海洋预报",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"h5": {
+			"maxWidth": 1190,
+			"navigationBarTextStyle": "black",
+			"navigationBarBackgroundColor": "#F1F1F1"
+		}
+	}
+}
